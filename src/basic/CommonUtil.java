@@ -32,10 +32,19 @@ class CommonUtil {
 			Class.forName( "com.mysql.jdbc.Driver" ).newInstance();
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/javasamples?",
 												"root","mysql");
+			conn.setAutoCommit(false);
 			return conn;
 		}catch (Exception e) {
 			e.printStackTrace();
 			return conn;
+		}
+	}
+
+	void commitConnection(Connection conn) {
+		try {
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

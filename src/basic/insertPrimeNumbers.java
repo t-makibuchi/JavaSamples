@@ -16,6 +16,7 @@ public class insertPrimeNumbers {
 	    Integer sNumber = Integer.parseInt(sString);
 	    Integer eNumber = Integer.parseInt(eString);
 	    Integer updateCnt = 0;
+	    Integer commitCnt = 1000;
 
 		Connection conn = cUtil.getDbConnection();
 		cUtil.executeUpdate(conn, "DELETE FROM prime_numbers");
@@ -28,15 +29,20 @@ public class insertPrimeNumbers {
 	    		sql.append(");");
 	    		Integer rsltUpdateCnt = cUtil.executeUpdate(conn, sql.toString());
 	    		updateCnt = updateCnt + rsltUpdateCnt;
+	    		if(updateCnt % commitCnt == 0 ) {
+	    			cUtil.commitConnection(conn);
+	    		}
 	    	}
 	    }
+	    cUtil.commitConnection(conn);
+	    cUtil.closeDbConnection(conn);
+
 	    long eTime = System.nanoTime();
 	    String exeTime = cUtil.getHMSfromNanotime(eTime - sTime);
 
 	    System.out.println("Update Count: " + updateCnt);
 	    System.out.println("Execution Time: " + exeTime);
 
-	    cUtil.closeDbConnection(conn);
 	}
 
 }
