@@ -16,11 +16,12 @@ public class insertPrimeNumbers {
 	    Integer sNumber = Integer.parseInt(sString);
 	    Integer eNumber = Integer.parseInt(eString);
 	    Integer updateCnt = 0;
-	    Integer commitCnt = 1000;
+	    Integer commitCnt = 10000;
 
 		Connection conn = cUtil.getDbConnection();
 		cUtil.executeUpdate(conn, "DELETE FROM prime_numbers");
 		cUtil.executeUpdate(conn, "ALTER TABLE prime_numbers ALGORITHM= COPY, AUTO_INCREMENT = 1");
+		cUtil.commitConnection(conn);
 	    for(int i = sNumber; i < eNumber +1; i++) {
 	    	if(bUtil.isPrime(i)) {
 	    		StringBuffer sql = new StringBuffer();
